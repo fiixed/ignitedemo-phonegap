@@ -12,8 +12,8 @@
       // Initialize the map view
     var test =  plugin.google.maps.Map.isAvailable(function(isAvailable, message) {
     if (isAvailable) {
-      var map = plugin.google.maps.Map.getMap(div);
-      map.addEventListener(plugin.google.maps.event.MAP_READY, onMapInit);
+       map = plugin.google.maps.Map.getMap(div);
+        onMapReady();
     } else {
       alert("Map not available");
     }
@@ -24,18 +24,32 @@
     }, false);
 
     function onMapReady() {
-      var button = document.getElementById("button");
-      button.addEventListener("click", onBtnClicked, false);
+        var bounds = [
+            new plugin.google.maps.LatLng(40.712216,-74.22655),
+            new plugin.google.maps.LatLng(40.773941,-74.12544)
+        ];
+
+        map.addGroundOverlay({
+            'url': "http://www.lacclink.com/assets/img/LACC_Main_Level_V5.jpg",
+            'bounds': bounds,
+            'opacity': 0.9,
+            'zIndex': 1000
+        }, function(groundOverlay) {
+            map.showDialog();
+            map.animateCamera({
+                'target': bounds
+            });
+        });
     }
 
-    function onBtnClicked() {
-      map.showDialog();
-    }
+//    function onBtnClicked() {
+//      map.showDialog();
+//    }
     </script>
   </head>
   <body>
-    <h3>PhoneGap-GoogleMaps-Plugin</h3>
-    <div style="width:100%;height:400px" id="map_canvas"></div>
-    <button id="button">Full Screen</button>
+
+    <div style="width:100%;height:600px" id="map_canvas"></div>
+
   </body>
 </html>
